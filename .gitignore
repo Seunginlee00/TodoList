@@ -6,8 +6,17 @@ build/
 !**/src/test/**/build/
 
 
+
 .env
-.gemini/settings.json
+.gemini/*
+.claude/*
+
+backend/.idea
+frontend/.idea
+backend/.vscode
+frontend/.vscode
+
+frontend/.idea
 
 ### STS ###
 .apt_generated
