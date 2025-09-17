@@ -1,0 +1,9 @@
+spring:
+  config:
+    import:
+      - classpath:/application-dev.yml
+      - classpath:/application-prod.yml
+  profiles:
+    group:
+      logging: prod
+
