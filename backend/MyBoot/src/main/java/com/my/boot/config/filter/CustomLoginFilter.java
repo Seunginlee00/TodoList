@@ -52,6 +52,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         String username = null;
         String password = null;
+        String token = null;
         String clientIP = ClientInfo.getClientIP(request);
 
         try {
@@ -61,6 +62,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
                 username = loginDTO.getUserId();
                 password = loginDTO.getPassword();
+                token = loginDTO.getToken();
             } else {
                 username = obtainUsername(request);
                 password = obtainPassword(request);
@@ -69,7 +71,10 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
             username = InputSanitizer.XSSFilter(username);
 
             log.info("🛡️ 로그인 시도 - IP: {}, userId: {}", clientIP, username);
-            password = rsaService.decryptedText(password); // 🔓 필요한 경우 복호화 활성화
+
+            // 🔐 고정 RSA 키로 복호화 (Redis 불필요)
+            log.info("🔑 고정 키 방식 복호화 시도");
+            password = rsaService.decryptedText(password);
 
             request.setAttribute("userId", username); // 이게 있어야 위에서 읽힘
 

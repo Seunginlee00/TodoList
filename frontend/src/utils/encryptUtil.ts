@@ -10,9 +10,13 @@ import { JSEncrypt } from 'jsencrypt';
 export const encryptPassword = (plainText: string, publicKey: string): string | null => {
     if (!plainText || !publicKey) return null;
 
+
+    // console.log("publicKey",publicKey);
+
     const encryptor = new JSEncrypt();
     encryptor.setPublicKey(publicKey);
 
     const encrypted = encryptor.encrypt(plainText);
+    console.log("encrypted",encrypted);
     return encrypted === false ? null : encrypted;
 };
