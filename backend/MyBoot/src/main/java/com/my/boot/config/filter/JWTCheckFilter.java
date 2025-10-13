@@ -55,40 +55,79 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         log.info("check uri.............." + path);
 
-        // 🔥 Swagger/OpenAPI 리소스 예외처리를 먼저 처리 (가장 중요!)
-        if (path.startsWith("/swagger-ui") ||
-                path.startsWith("/v3/api-docs") ||
-                path.startsWith("/swagger-resources") ||
-                path.startsWith("/webjars") ||
-                path.equals("/swagger-ui.html")) {
-            log.info("✅ Swagger 경로 허용: {}", path);
+        // ✅ Swagger, Docs 등은 먼저 통과
+        if (path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-resources")
+                || path.startsWith("/webjars")
+                || path.equals("/swagger-ui.html")) {
             return true;
         }
 
-        // Preflight OPTIONS 요청은 무조건 통과
-        if (request.getMethod().equals("OPTIONS")) {
+        // ✅ Preflight OPTIONS 요청 무조건 통과
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
 
-        // 로그인, 회원가입, public-key, refresh 만 예외로 허용
-        if (EXCLUDE_URIS.contains(path)) {
+        // ✅ 아래 URI는 prefix 기준으로 허용
+        if (path.startsWith("/api/user/login")
+                || path.startsWith("/api/user/register")
+                || path.startsWith("/api/user/refresh")
+                || path.startsWith("/api/member/login")
+                || path.startsWith("/api/member/register")
+                || path.startsWith("/api/member/refresh")
+                || path.startsWith("/api/public-key")
+                || path.startsWith("/api/pub-key")
+                || path.startsWith("/api/jwt-pub-key")
+                || path.startsWith("/check-access")
+                || path.startsWith("/api/member/photo/")
+                || path.startsWith("/api/products/view/")) {
+            log.debug("✅ JWTCheckFilter 제외 경로: {}", path);
             return true;
         }
 
-        // 상품 이미지 조회 같은 공개용은 허용
-        if (path.startsWith("/api/products/view/")) {
-            return true;
-        }
-
-        // 사진 이미지 조회 같은 공개용은 허용
-        if (path.startsWith("/api/member/photo/")) {
-            return true;
-        }
-
-
-        // 나머지 요청은 전부 JWT 체크
-        return false;
+        return false; // ✅ 나머지는 JWT 필터링 대상
     }
+
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        String path = request.getRequestURI();
+//        log.info("check uri.............." + path);
+//
+//        // 🔥 Swagger/OpenAPI 리소스 예외처리를 먼저 처리 (가장 중요!)
+//        if (path.startsWith("/swagger-ui") ||
+//                path.startsWith("/v3/api-docs") ||
+//                path.startsWith("/swagger-resources") ||
+//                path.startsWith("/webjars") ||
+//                path.equals("/swagger-ui.html")) {
+//            log.info("✅ Swagger 경로 허용: {}", path);
+//            return true;
+//        }
+//
+//        // Preflight OPTIONS 요청은 무조건 통과
+//        if (request.getMethod().equals("OPTIONS")) {
+//            return true;
+//        }
+//
+//        // 로그인, 회원가입, public-key, refresh 만 예외로 허용
+//        if (EXCLUDE_URIS.contains(path)) {
+//            return true;
+//        }
+//
+//        // 상품 이미지 조회 같은 공개용은 허용
+//        if (path.startsWith("/api/products/view/")) {
+//            return true;
+//        }
+//
+//        // 사진 이미지 조회 같은 공개용은 허용
+//        if (path.startsWith("/api/member/photo/")) {
+//            return true;
+//        }
+//
+//
+//        // 나머지 요청은 전부 JWT 체크
+//        return false;
+//    }
 
 
     @Override

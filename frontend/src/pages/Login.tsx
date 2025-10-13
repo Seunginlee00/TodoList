@@ -61,9 +61,15 @@ export default function LoginPage() {
             const data = res.data;
             console.log("✅ 로그인 응답:", data);
 
-            if (data?.success) {
-                alert("로그인 성공");
-                navigate("/"); // ✅ 수정
+            if (data?.success && data?.accessToken) {
+                // ✅ JWT 토큰을 localStorage에 저장
+                localStorage.setItem("accessToken", data.accessToken);
+                localStorage.setItem("refreshToken", data.refreshToken);
+                localStorage.setItem("userId", data.userId);
+                localStorage.setItem("userNm", data.userNm);
+
+                alert(`로그인 성공! ${data.userNm}님 환영합니다.`);
+                navigate("/"); // ✅ 메인 페이지로 이동
             } else {
                 setErrorMessage("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
             }

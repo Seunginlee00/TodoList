@@ -1,6 +1,7 @@
 package com.my.boot.user.service;
 
 
+import com.my.boot.auth.service.RSAService;
 import com.my.boot.common.dto.ResultDTO;
 import com.my.boot.common.exception.ApiException;
 import com.my.boot.common.exception.ExceptionData;
@@ -22,6 +23,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final RSAService rsaService; // ✅ RSA 복호화를 위한 서비스 주입
 
 /*
 * 회원가입
@@ -33,10 +35,18 @@ public class UserService {
             throw new ApiException(ExceptionData.EXISTS_USER);
         }
 
-        String salt = PasswordUtil.getSalt();
-        String encrypted = PasswordUtil.hashSSHA(request.passwd(), salt);
+        // ✅ RSA 복호화: 프론트엔드에서 암호화된 비밀번호 복호화
+        String decryptedPassword = rsaService.decryptedText(request.passwd());
+        log.info("🔐 회원가입 - 비밀번호 복호화 완료");
 
-        User user = request.toEntity(encrypted);
+        String salt = PasswordUtil.getSalt();
+        log.info("✅ 회원 가입 salt : {}", salt);
+
+        // 복호화된 평문 비밀번호를 해시화
+        String encrypted = PasswordUtil.hashSSHA(decryptedPassword, salt);
+        log.info("✅ 비밀번호 해시화 완료");
+
+        User user = request.toEntity(encrypted, salt);
 
         userRepository.save(user);
 

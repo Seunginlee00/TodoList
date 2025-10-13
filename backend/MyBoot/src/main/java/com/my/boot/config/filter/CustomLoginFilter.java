@@ -2,6 +2,10 @@ package com.my.boot.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.boot.auth.dto.LoginReqDTO;
+import com.my.boot.auth.security.handler.APILoginFailHandler;
+import com.my.boot.auth.security.handler.APILoginSuccessHandler;
+import com.my.boot.auth.security.util.JWTUtil;
+import com.my.boot.auth.service.JwtTokenStoreService;
 import com.my.boot.auth.service.RSAService;
 import com.my.boot.common.util.ClientInfo;
 import com.my.boot.common.util.InputSanitizer;
@@ -18,26 +22,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final RSAService rsaService;
-//    private final LoginFailService loginFailService;
-//    private final LDAPAuthFailService ldapAuthFailService;
-//    private final JwtTokenStoreService jwtTokenStoreService;
+    private final JwtTokenStoreService jwtTokenStoreService;
+    private final JWTUtil jwtUtil;
 
-    public CustomLoginFilter(AuthenticationManager authenticationManager, RSAService rsaService
-
-
-//                             LoginFailService loginFailService,
-//                             LDAPAuthFailService ldapAuthFailService,
-//                             JwtTokenStoreService jwtTokenStoreService
-    ) {
+    public CustomLoginFilter(AuthenticationManager authenticationManager,
+                             RSAService rsaService,
+                             JwtTokenStoreService jwtTokenStoreService,
+                             JWTUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.rsaService = rsaService;
-//        this.loginFailService = loginFailService;
-//        this.ldapAuthFailService = ldapAuthFailService;
-//        this.jwtTokenStoreService = jwtTokenStoreService;
+        this.jwtTokenStoreService = jwtTokenStoreService;
+        this.jwtUtil = jwtUtil;
 
-        // 로그인 성공/실패 핸들러
-//        setAuthenticationSuccessHandler(new APILoginSuccessHandler(loginFailService, jwtTokenStoreService));
-//        setAuthenticationFailureHandler(new APILoginFailHandler(loginFailService, ldapAuthFailService));
+        // ✅ 로그인 성공/실패 핸들러 등록
+        setAuthenticationSuccessHandler(new APILoginSuccessHandler(jwtTokenStoreService, jwtUtil));
+        setAuthenticationFailureHandler(new APILoginFailHandler());
 
         setFilterProcessesUrl("/api/user/login"); // 로그인 처리 URL 지정
     }

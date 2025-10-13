@@ -10,15 +10,15 @@ spring:
   config:
     activate:
       on-profile:
-        dev
+        prod
   datasource:
-    url: jdbc:postgresql://158.179.162.157:5432/postgres?currentSchema=todo
+    url: jdbc:postgresql://d-seungin.duckdns.org:5432/postgres?currentSchema=todo
     username: project
     password: "project00**"
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         default_batch_fetch_size: 200

@@ -14,11 +14,12 @@ public record UsersRequest(
     int display
 ) {
 
-  public User toEntity (String encodePasswd) {
+  public User toEntity (String encodePasswd, String salt) {
     return User.builder()
         .loginId(loginId())
         .userNm(userNm())
         .email(email())
+        .salt(salt)
         .mobileNo(mobileNo())
         .passwd(encodePasswd)
         .build();

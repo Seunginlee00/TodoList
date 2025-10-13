@@ -74,9 +74,7 @@ public class CustomSecurityConfig {
         // ✅ 커스텀 로그인 필터 등록
         // AuthenticationManager 가져오기
         AuthenticationManager authManager = authenticationManager(http);
-        CustomLoginFilter filter = new CustomLoginFilter(authManager,rsaService);
-
-//        CustomLoginFilter filter = new CustomLoginFilter(authManager,rsaService,loginFailService,ldapAuthFailService,jwtTokenStoreService,jwtUtil);
+        CustomLoginFilter filter = new CustomLoginFilter(authManager, rsaService, jwtTokenStoreService, jwtUtil);
         http.addFilterAt(filter, UsernamePasswordAuthenticationFilter.class);
 
         // JWT 필터 등록

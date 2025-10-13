@@ -12,7 +12,7 @@ spring:
       on-profile:
         dev
   datasource:
-    url: jdbc:postgresql://158.179.162.157:5432/postgres?currentSchema=todo
+    url: jdbc:postgresql://d-seungin.duckdns.org:5432/postgres?currentSchema=todo
     username: project
     password: "project00**"
     driver-class-name: org.postgresql.Driver
