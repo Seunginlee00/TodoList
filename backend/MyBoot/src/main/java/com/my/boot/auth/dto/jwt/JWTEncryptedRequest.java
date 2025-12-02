@@ -1,7 +1,16 @@
 package com.my.boot.auth.dto.jwt;
 
-public record JWTEncryptedRequest(
-        String encryptedData,
-        String token
-) {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class JWTEncryptedRequest {
+    private String encryptedData;
+    private String token;
 }
+

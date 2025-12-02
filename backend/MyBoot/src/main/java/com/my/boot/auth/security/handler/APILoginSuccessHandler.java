@@ -3,6 +3,7 @@ package com.my.boot.auth.security.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.boot.auth.security.util.JWTUtil;
 import com.my.boot.auth.service.JwtTokenStoreService;
+import com.my.boot.auth.service.RSAService;
 import com.my.boot.user.dto.UserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

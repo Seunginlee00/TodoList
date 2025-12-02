@@ -1,9 +1,16 @@
 package com.my.boot.auth.dto.jwt;
-public record JWTRSAResponse(
-        String publicKey,
-        String token,
-        int expiresIn
-) {
-}
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class JWTRSAResponse {
+    private String publicKey;
+    private String token;
+    private int expiresIn;
+}
 

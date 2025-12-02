@@ -14,10 +14,12 @@ import java.util.UUID;
 @Slf4j
 @RestController  // 해당 Class 는 REST API 를 제공하는 Controller
 @RequestMapping("/api")  // RequestMapping URI 를 지정해주는 Annotation
-@RequiredArgsConstructor
 public class AuthController {
     private final RSAService rsaService;
 
+    public AuthController(RSAService rsaService) {
+        this.rsaService = rsaService;
+    }
 
     /**
      * 비번 변경 공개키
@@ -42,9 +44,9 @@ public class AuthController {
 
         // 기존 AuthController와 동일한 형태로 응답
         return Map.of(
-                "publicKey", response.publicKey(),
-                "token", response.token(),
-                "expiresIn", response.expiresIn()
+                "publicKey", response.getPublicKey(),
+                "token", response.getToken(),
+                "expiresIn", response.getExpiresIn()
         );
     }
 

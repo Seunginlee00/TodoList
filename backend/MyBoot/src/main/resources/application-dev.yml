@@ -1,6 +1,11 @@
 spring:
   jwt:
     secret: akxpsfhglvmshtltmakdlzmwkznfkdlekflwhsskrlfdjsjanwhgdmssmRla
+  data:
+    redis:
+      host: 158.179.162.157
+      port: 16380
+      password: project00
   servlet:
     multipart:
       enabled: true

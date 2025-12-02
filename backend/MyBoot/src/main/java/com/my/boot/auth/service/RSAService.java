@@ -19,6 +19,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
@@ -78,11 +79,11 @@ public class RSAService {
 
         log.info("🔑 JWT-RSA 키 발급 완료 - userId: {}, keyId: {}", userId, keyId);
 
-        return new JWTRSAResponse(
-                publicKey,
-                jwt,
-                300
-        );
+        return JWTRSAResponse.builder()
+                .publicKey(publicKey)
+                .token(jwt)
+                .expiresIn(300)
+                .build();
     }
 
     /**
@@ -90,7 +91,7 @@ public class RSAService {
      */
     public String decryptWithJWT(JWTEncryptedRequest request) {
         try {
-            Map<String, Object> claims = jwtUtil.validateToken(request.token());
+            Map<String, Object> claims = jwtUtil.validateToken(request.getToken());
             String keyId = (String) claims.get("keyId");
             String userId = (String) claims.get("userId");
 
@@ -104,7 +105,7 @@ public class RSAService {
                 throw new SecurityException("키가 만료되었거나 존재하지 않습니다.");
             }
 
-            String decrypted = cryptoUtil.decryptRSA(request.encryptedData(), privateKey);
+            String decrypted = cryptoUtil.decryptRSA(request.getEncryptedData(), privateKey);
 
             log.info("🔓 JWT-RSA 복호화 성공 - userId: {}, keyId: {}", userId, keyId);
             return decrypted;

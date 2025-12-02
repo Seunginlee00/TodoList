@@ -1,22 +1,18 @@
 package com.my.boot.common.util;
 
+import org.springframework.stereotype.Component;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Locale;
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.springframework.stereotype.Component;
 
 @Component
 public class CryptoUtil {
@@ -40,8 +36,6 @@ public class CryptoUtil {
         return processAES(data, AES_KEY, Cipher.DECRYPT_MODE);
     }
 
-    // 실제 핵심 로직
-
     private String processAES(String data, String key, int mode) {
         try {
             SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
@@ -49,10 +43,10 @@ public class CryptoUtil {
             cipher.init(mode, secretKey, new IvParameterSpec(IV_BYTES));
             byte[] processedData = (mode == Cipher.ENCRYPT_MODE)
                     ? cipher.doFinal(data.getBytes(StandardCharsets.UTF_8))
-                    : cipher.doFinal(Base64.getUrlDecoder().decode(data)); // ✅ 디코더도 URL-safe
+                    : cipher.doFinal(Base64.getUrlDecoder().decode(data)); // ✅ AES는 URL-safe 사용 중
 
             return mode == Cipher.ENCRYPT_MODE
-                    ? Base64.getUrlEncoder().withoutPadding().encodeToString(processedData) // ✅ 수정된 부분
+                    ? Base64.getUrlEncoder().withoutPadding().encodeToString(processedData) // ✅ AES는 URL-safe 사용 중
                     : new String(processedData, StandardCharsets.UTF_8);
 
         } catch (Exception e) {
@@ -65,6 +59,7 @@ public class CryptoUtil {
      */
     public PublicKey getPublicKeyFromBase64(String base64PublicKey) {
         try {
+            // 키 복원은 일반 Base64 디코더 사용 (키 생성 시 일반 Base64를 사용했기 때문)
             byte[] decodedKey = Base64.getDecoder().decode(base64PublicKey);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePublic(new X509EncodedKeySpec(decodedKey));
@@ -78,6 +73,7 @@ public class CryptoUtil {
      */
     public PrivateKey getPrivateKeyFromBase64(String base64PrivateKey) {
         try {
+            // 키 복원은 일반 Base64 디코더 사용
             byte[] decodedKey = Base64.getDecoder().decode(base64PrivateKey);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePrivate(new PKCS8EncodedKeySpec(decodedKey));
@@ -86,15 +82,15 @@ public class CryptoUtil {
         }
     }
 
-
-    // 암호화
     public String encryptRSA(String plainText, String base64PublicKey) {
         try {
             PublicKey publicKey = getPublicKeyFromBase64(base64PublicKey);
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] encryptedBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(encryptedBytes);
+
+            // 🌟 수정: RSA 암호화 후 URL-Safe Base64 인코더 사용
+            return Base64.getUrlEncoder().encodeToString(encryptedBytes);
         } catch (Exception e) {
             throw new RuntimeException("RSA encryption failed", e);
         }
@@ -108,7 +104,10 @@ public class CryptoUtil {
             PrivateKey privateKey = getPrivateKeyFromBase64(base64PrivateKey);
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+
+            // 🌟 수정: RSA 복호화 전 URL-Safe Base64 디코더 사용 (BadPaddingException 방지)
+            byte[] decryptedBytes = cipher.doFinal(Base64.getUrlDecoder().decode(encryptedText));
+
             return new String(decryptedBytes, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new RuntimeException("RSA decryption failed", e);
@@ -128,7 +127,4 @@ public class CryptoUtil {
             throw new RuntimeException("Failed to generate RSA key pair", e);
         }
     }
-
-
 }
-
