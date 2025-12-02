@@ -1,0 +1,1 @@
+{"root":["./vite.config.ts","./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/api/axiosinterceptor.ts","./src/api/hostapi.ts","./src/components/privateroute.tsx","./src/pages/login.tsx","./src/pages/register.tsx","./src/utils/api.ts","./src/utils/encryptutil.ts","./src/utils/usepublickey.ts","./src/utils/usepwpublickey.ts"],"version":"5.8.3"}

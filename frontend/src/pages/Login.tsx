@@ -50,13 +50,13 @@ export default function LoginPage() {
                 return;
             }
 
-            // 고정 키 방식은 token 불필요
+            // Fixed RSA 방식: token 불필요
             const payload = {
                 userId,
                 password: encryptedPw,
             };
 
-            console.log("🔐 로그인 요청:", { userId, password: "***암호화됨***" });
+            console.log("🔐 로그인 요청:", { userId, password: "***암호화됨***", token: jwtToken ? "있음" : "없음" });
             const res = await axios.post(`${API_SERVER_HOST}/api/user/login`, payload);
             const data = res.data;
             console.log("✅ 로그인 응답:", data);
@@ -140,9 +140,17 @@ export default function LoginPage() {
                 <button
                     type="submit"
                     disabled={loading || !isFormValid}
-                    className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold disabled:opacity-50"
+                    className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold disabled:opacity-50 mb-2"
                 >
                     {loading ? "로그인 중..." : "로그인"}
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => navigate("/register")}
+                    className="w-full bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold"
+                >
+                    회원가입 페이지로
                 </button>
             </form>
         </div>
