@@ -9,7 +9,7 @@ import { usePublicKey } from "@/utils/usePublicKey";
 
 export default function LoginPage() {
     const navigate = useNavigate(); // ✅ 수정
-    const { publicKey, jwtToken } = usePublicKey();
+    const { publicKey } = usePublicKey();
 
     // 상태
     const [userId, setUserId] = useState("");
@@ -143,6 +143,15 @@ export default function LoginPage() {
                     className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold disabled:opacity-50"
                 >
                     {loading ? "로그인 중..." : "로그인"}
+                </button>
+
+                {/* 회원가입 버튼 */}
+                <button
+                    type="button"
+                    onClick={() => navigate("/register")}
+                    className="w-full bg-gray-400 text-white py-2 rounded-lg font-semibold mt-2 hover:bg-gray-500"
+                >
+                    회원가입
                 </button>
             </form>
         </div>

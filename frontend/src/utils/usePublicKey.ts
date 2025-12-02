@@ -3,10 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_SERVER_HOST } from "@/api/hostApi";
 
-interface PublicKeyResponse {
-    publicKey: string;
-    token: string;
-}
+
 
 export function usePublicKey() {
     const [publicKey, setPublicKey] = useState<string>("");
