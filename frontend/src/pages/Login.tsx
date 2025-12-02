@@ -82,16 +82,16 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50">
+        <div className="flex justify-center items-center min-h-screen bg-amber-100 p-4"> {/* 배경색 아이보리/연한 갈색 */}
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md bg-white shadow-lg rounded-lg p-8"
+                className="w-full max-w-md bg-white shadow-2xl rounded-xl p-8 text-center" /* 라운드 처리, 그림자, 중앙 정렬 */
             >
-                <h1 className="text-2xl font-bold text-center text-blue-600 mb-6">Login</h1>
+                <h1 className="text-3xl font-extrabold text-amber-800 mb-8">로그인</h1> {/* 제목 중앙 정렬 및 색상 변경 */}
 
                 {/* UserID */}
-                <label className="block font-semibold mb-1">
-                    <span className="text-red-500">*</span> UserID
+                <label className="block font-semibold text-gray-700 mb-2">
+                    <span className="text-red-500">*</span> 아이디
                 </label>
                 <input
                     type="text"
@@ -101,17 +101,17 @@ export default function LoginPage() {
                         setFieldErrors((prev) => ({ ...prev, userId: "" }));
                     }}
                     placeholder="아이디를 입력하세요"
-                    className={`w-full border rounded px-3 py-2 mb-2 ${
-                        fieldErrors.userId ? "border-red-500" : "border-gray-300"
+                    className={`w-full border-2 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:border-amber-500 transition duration-300 ${
+                        fieldErrors.userId ? "border-red-500" : "border-gray-200"
                     }`}
                 />
                 {fieldErrors.userId && (
-                    <p className="text-red-500 text-sm mb-4">{fieldErrors.userId}</p>
+                    <p className="text-red-500 text-sm -mt-2 mb-4">{fieldErrors.userId}</p>
                 )}
 
                 {/* Password */}
-                <label className="block font-semibold mb-1">
-                    <span className="text-red-500">*</span> Password
+                <label className="block font-semibold text-gray-700 mb-2">
+                    <span className="text-red-500">*</span> 비밀번호
                 </label>
                 <input
                     type="password"
@@ -121,17 +121,17 @@ export default function LoginPage() {
                         setFieldErrors((prev) => ({ ...prev, pw: "" }));
                     }}
                     placeholder="비밀번호를 입력하세요"
-                    className={`w-full border rounded px-3 py-2 mb-2 ${
-                        fieldErrors.pw ? "border-red-500" : "border-gray-300"
+                    className={`w-full border-2 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:border-amber-500 transition duration-300 ${
+                        fieldErrors.pw ? "border-red-500" : "border-gray-200"
                     }`}
                 />
                 {fieldErrors.pw && (
-                    <p className="text-red-500 text-sm mb-4">{fieldErrors.pw}</p>
+                    <p className="text-red-500 text-sm -mt-2 mb-4">{fieldErrors.pw}</p>
                 )}
 
                 {/* 에러 메시지 */}
                 {errorMessage && (
-                    <div className="bg-red-100 text-red-600 text-sm p-2 rounded mb-4">
+                    <div className="bg-red-100 text-red-600 text-sm p-3 rounded-lg mb-4 text-left">
                         {errorMessage}
                     </div>
                 )}
@@ -140,7 +140,7 @@ export default function LoginPage() {
                 <button
                     type="submit"
                     disabled={loading || !isFormValid}
-                    className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold disabled:opacity-50"
+                    className="w-full bg-amber-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-amber-700 transition duration-300 disabled:opacity-50"
                 >
                     {loading ? "로그인 중..." : "로그인"}
                 </button>
@@ -149,7 +149,7 @@ export default function LoginPage() {
                 <button
                     type="button"
                     onClick={() => navigate("/register")}
-                    className="w-full bg-gray-400 text-white py-2 rounded-lg font-semibold mt-2 hover:bg-gray-500"
+                    className="w-full bg-gray-400 text-white py-3 rounded-lg font-bold text-lg mt-3 hover:bg-gray-500 transition duration-300"
                 >
                     회원가입
                 </button>
