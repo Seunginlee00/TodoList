@@ -82,78 +82,98 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-amber-100 p-4"> {/* 배경색 아이보리/연한 갈색 */}
+        <div
+            className="flex flex-row justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4"
+            style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}
+        >
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md bg-white shadow-2xl rounded-xl p-8 text-center" /* 라운드 처리, 그림자, 중앙 정렬 */
+                className="max-w-md bg-white/80 backdrop-blur-lg shadow-2xl rounded-2xl p-10 border border-white/20"
+                style={{ width: '100%', maxWidth: '448px' }}
             >
-                <h1 className="text-3xl font-extrabold text-amber-800 mb-8">로그인</h1> {/* 제목 중앙 정렬 및 색상 변경 */}
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                        로그인
+                    </h1>
+                    <p className="text-gray-500 text-sm">계정에 로그인하여 계속하세요</p>
+                </div>
 
-                {/* UserID */}
-                <label className="block font-semibold text-gray-700 mb-2">
-                    <span className="text-red-500">*</span> 아이디
-                </label>
-                <input
-                    type="text"
-                    value={userId}
-                    onChange={(e) => {
-                        setUserId(e.target.value);
-                        setFieldErrors((prev) => ({ ...prev, userId: "" }));
-                    }}
-                    placeholder="아이디를 입력하세요"
-                    className={`w-full border-2 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:border-amber-500 transition duration-300 ${
-                        fieldErrors.userId ? "border-red-500" : "border-gray-200"
-                    }`}
-                />
-                {fieldErrors.userId && (
-                    <p className="text-red-500 text-sm -mt-2 mb-4">{fieldErrors.userId}</p>
-                )}
-
-                {/* Password */}
-                <label className="block font-semibold text-gray-700 mb-2">
-                    <span className="text-red-500">*</span> 비밀번호
-                </label>
-                <input
-                    type="password"
-                    value={pw}
-                    onChange={(e) => {
-                        setPw(e.target.value);
-                        setFieldErrors((prev) => ({ ...prev, pw: "" }));
-                    }}
-                    placeholder="비밀번호를 입력하세요"
-                    className={`w-full border-2 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:border-amber-500 transition duration-300 ${
-                        fieldErrors.pw ? "border-red-500" : "border-gray-200"
-                    }`}
-                />
-                {fieldErrors.pw && (
-                    <p className="text-red-500 text-sm -mt-2 mb-4">{fieldErrors.pw}</p>
-                )}
-
-                {/* 에러 메시지 */}
-                {errorMessage && (
-                    <div className="bg-red-100 text-red-600 text-sm p-3 rounded-lg mb-4 text-left">
-                        {errorMessage}
+                <div className="space-y-5 flex flex-col items-center">
+                    {/* UserID */}
+                    <div className="w-full max-w-xs">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+                            아이디
+                        </label>
+                        <input
+                            type="text"
+                            value={userId}
+                            onChange={(e) => {
+                                setUserId(e.target.value);
+                                setFieldErrors((prev) => ({ ...prev, userId: "" }));
+                            }}
+                            placeholder="아이디를 입력하세요"
+                            className={`w-full border rounded-xl px-4 py-3 text-gray-800 text-center placeholder-gray-400 focus:outline-none focus:ring-2 transition duration-200 ${
+                                fieldErrors.userId
+                                    ? "border-red-400 focus:ring-red-300"
+                                    : "border-gray-200 focus:ring-blue-300 focus:border-transparent"
+                            }`}
+                        />
+                        {fieldErrors.userId && (
+                            <p className="text-red-500 text-xs mt-1 text-center">{fieldErrors.userId}</p>
+                        )}
                     </div>
-                )}
 
-                {/* 버튼 */}
-                <button
-                    type="submit"
-                    disabled={loading || !isFormValid}
-                    className="w-full bg-amber-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-amber-700 transition duration-300 disabled:opacity-50"
-                >
-                    {loading ? "로그인 중..." : "로그인"}
-                </button>
+                    {/* Password */}
+                    <div className="w-full max-w-xs">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+                            비밀번호
+                        </label>
+                        <input
+                            type="password"
+                            value={pw}
+                            onChange={(e) => {
+                                setPw(e.target.value);
+                                setFieldErrors((prev) => ({ ...prev, pw: "" }));
+                            }}
+                            placeholder="비밀번호를 입력하세요"
+                            className={`w-full border rounded-xl px-4 py-3 text-gray-800 text-center placeholder-gray-400 focus:outline-none focus:ring-2 transition duration-200 ${
+                                fieldErrors.pw
+                                    ? "border-red-400 focus:ring-red-300"
+                                    : "border-gray-200 focus:ring-blue-300 focus:border-transparent"
+                            }`}
+                        />
+                        {fieldErrors.pw && (
+                            <p className="text-red-500 text-xs mt-1 text-center">{fieldErrors.pw}</p>
+                        )}
+                    </div>
 
-                {/* 회원가입 버튼 */}
-                <button
-                    type="button"
-                    onClick={() => navigate("/register")}
-                    className="w-full bg-gray-400 text-white py-3 rounded-lg font-bold text-lg mt-3 hover:bg-gray-500 transition duration-300"
-                >
-                    회원가입
-                </button>
+                    {/* 에러 메시지 */}
+                    {errorMessage && (
+                        <div className="w-full max-w-xs bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-xl text-center">
+                            {errorMessage}
+                        </div>
+                    )}
+
+                    {/* 로그인 버튼 */}
+                    <button
+                        type="submit"
+                        disabled={loading || !isFormValid}
+                        className="w-full max-w-xs bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold text-base hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
+                    >
+                        {loading ? "로그인 중..." : "로그인"}
+                    </button>
+
+                    {/* 회원가입 버튼 */}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/register")}
+                        className="w-full max-w-xs bg-white border-2 border-gray-200 text-gray-700 py-3 rounded-xl font-semibold text-base hover:bg-gray-50 hover:border-gray-300 transform hover:scale-[1.02] transition-all duration-200 shadow-md hover:shadow-lg"
+                    >
+                        회원가입
+                    </button>
+                </div>
             </form>
+    
         </div>
     );
 }
