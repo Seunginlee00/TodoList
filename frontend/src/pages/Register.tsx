@@ -16,14 +16,24 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 font-sans">
-            <div className="w-full max-w-md bg-white shadow-2xl rounded-xl p-10">
-                <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
-                    회원가입
-                </h1>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label className="block font-bold text-gray-700 mb-2">
+        <div
+            className="flex flex-row justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4"
+            style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}
+        >
+            <div
+                className="max-w-md bg-white/80 backdrop-blur-lg shadow-2xl rounded-2xl p-10 border border-white/20"
+                style={{ width: '100%', maxWidth: '448px' }}
+            >
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                        회원가입
+                    </h1>
+                    <p className="text-gray-500 text-sm">새로운 계정을 만들어보세요</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5 flex flex-col items-center">
+                    <div className="w-full max-w-xs">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
                             아이디
                         </label>
                         <input
@@ -31,12 +41,12 @@ export default function RegisterPage() {
                             value={userId}
                             onChange={(e) => setUserId(e.target.value)}
                             placeholder="아이디를 입력하세요"
-                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition duration-300"
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-800 text-center placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-200"
                             required
                         />
                     </div>
-                    <div>
-                        <label className="block font-bold text-gray-700 mb-2">
+                    <div className="w-full max-w-xs">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
                             비밀번호
                         </label>
                         <input
@@ -44,12 +54,12 @@ export default function RegisterPage() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="비밀번호를 입력하세요"
-                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition duration-300"
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-800 text-center placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-200"
                             required
                         />
                     </div>
-                    <div>
-                        <label className="block font-bold text-gray-700 mb-2">
+                    <div className="w-full max-w-xs">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
                             비밀번호 확인
                         </label>
                         <input
@@ -57,23 +67,29 @@ export default function RegisterPage() {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="비밀번호를 다시 입력하세요"
-                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition duration-300"
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-800 text-center placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-200"
                             required
                         />
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+                        className="w-full max-w-xs bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-semibold text-base hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl"
                     >
                         가입하기
                     </button>
                 </form>
-                <p className="text-center text-gray-500 mt-6">
-                    이미 계정이 있으신가요?{" "}
-                    <Link to="/login" className="text-blue-600 hover:underline">
-                        로그인
-                    </Link>
-                </p>
+
+                <div className="mt-6 text-center">
+                    <p className="text-gray-600 text-sm">
+                        이미 계정이 있으신가요?{" "}
+                        <Link
+                            to="/login"
+                            className="text-blue-600 hover:text-purple-600 font-semibold transition-colors duration-200"
+                        >
+                            로그인
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     );
