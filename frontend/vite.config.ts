@@ -11,6 +11,7 @@ export default defineConfig({
     },
   },
   server: {
+    port: 6001, // 개발 서버 포트를 6001으로 설정 (ERR_UNSAFE_PORT 해결)
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
