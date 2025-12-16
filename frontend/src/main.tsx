@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import App from "./App";
 import PrivateRoute from "./components/PrivateRoute";
 import RegisterPage from "./pages/Register"; // Import the RegisterPage component
+import CalendarPage from "./pages/CalendarPage";
 import "./index.css"; // Tailwind CSS 적용
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -18,6 +19,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                     element={
                         <PrivateRoute>
                             <App />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/calendar"
+                    element={
+                        <PrivateRoute>
+                            <CalendarPage />
                         </PrivateRoute>
                     }
                 />
